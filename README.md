@@ -191,10 +191,20 @@ at minimum order. Curiously, **no** graph of order 10 is an example for any
 k in {2, 3, 4}.
 
 A short note (LaTeX in `note/`) presents the k = 4 answer with a fully
-hand-checkable proof plus these census results. Structured sweeps at
-orders 12-14 (regular graphs with degree at most (n-1)/2, which suffices by
-complement invariance, and near-regular degree windows) are reported in the
-results directory.
+hand-checkable proof plus these census results. Structured sweeps beyond order 11 found no witness either
+(`results_extended/`, all with 0 witnesses):
+
+- **regular graphs** of orders 12, 13, 14 with degree d ≤ (n-1)/2 — by
+  complement invariance this covers *all* regular graphs of those orders
+  (largest slice: all 21,609,300 connected 6-regular graphs on 14 vertices);
+- **adjacent-degree windows** (degrees within {a, a+1}, a = 2..5) at orders
+  12 and 13, covering 15,409,504 and 836,922,152 graphs respectively —
+  by complement invariance this also covers windows {n-2-a, n-1-a}.
+
+Coverage caveat: a k = 2 or k = 3 example of order 12-13 outside these
+slices would need two non-adjacent degree values (e.g. {2, 4}), a window
+touching degree 1, or (for k = 3) three distinct degree values. The
+unconditional bound remains: no example on ≤ 11 vertices.
 
 ## Status caveat
 
