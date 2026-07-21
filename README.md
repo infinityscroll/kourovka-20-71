@@ -1,9 +1,7 @@
 # An affirmative example for the `k=4` case of Kourovka Problem 20.71
 
 **Author: Jitendra Prajapati (IIT Madras).**
-Contact via GitHub (@infinityscroll). The search, verification scripts and
-Lean formalization were prepared with substantial assistance from Claude
-(Anthropic), under the author's direction; the witness and all counts were
+Contact via GitHub (@infinityscroll). The verification scripts were prepared with assistance from AI system, under the author's direction; the witness and all counts were
 additionally re-verified by independent brute-force computation, and the
 central claim is machine-checked in Lean 4 (see
 `INDEPENDENT_VERIFICATION.md`).
