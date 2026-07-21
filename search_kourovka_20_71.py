@@ -52,13 +52,13 @@ def main() -> None:
         raw = raw.strip()
         if not raw or raw.startswith(b">"):
             continue
+        checked += 1
         graph = nx.from_graph6_bytes(raw)
         card_types = {
             pynauty.certificate(nauty_graph(graph, omit=v)) for v in graph
         }
         k = len(card_types)
         if k not in {2, 3, 4}:
-            checked += 1
             continue
         aut = pynauty.autgrp(nauty_graph(graph))
         orbit_count = aut[4]
@@ -68,7 +68,6 @@ def main() -> None:
                 print(raw.decode(), "card_types", k, "orbits", orbit_count)
             if not args.all_targets or set(found) == {2, 3, 4}:
                 return
-        checked += 1
     if args.all_targets:
         print("CHECKED", checked, "MISSING", sorted({2, 3, 4} - set(found)))
     else:

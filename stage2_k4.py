@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Stage 2 of the Kourovka 20.71 k=2,3 census.
+"""Stage 2 of the Kourovka 20.71 k=4 census.
 
-Input: graph6 lines (already degree-filtered to <= 3 distinct degrees).
+Input: graph6 lines.
 For each graph:
   1. compute per-card degree-multiset fingerprints; the number of distinct
-     fingerprints lower-bounds the number of card types — skip if > 3;
+     fingerprints lower-bounds the number of card types — skip if > 4;
   2. canonicalize the cards with pynauty within fingerprint groups to get the
      exact card-type count k;
-  3. if k in {2, 3}, compute Aut(G) orbits; report a WITNESS if orbits > k.
+  3. if k = 4, compute Aut(G) orbits; report a WITNESS if orbits > 4.
 
 Fingerprint soundness: isomorphic cards have identical degree multisets, so
 grouping by fingerprint refines no card class incorrectly; certificates are
@@ -61,8 +61,9 @@ def main() -> None:
             sum((mask[u] & mask[v]).bit_count() for u in adj[v]) // 2
             for v in range(n)
         ]
-        # card fingerprint: (degree multiset of G-v, triangle count of G-v);
-        # both are isomorphism invariants of the card
+        # card fingerprint: degree multiset of G-v and tri[v]. Since
+        # triangles(G-v) = triangles(G) - tri[v], both components are card
+        # isomorphism invariants within this fixed graph.
         groups: dict[tuple, list[int]] = {}
         for v in range(n):
             dm = tuple(sorted(deg[u] - ((mask[v] >> u) & 1)

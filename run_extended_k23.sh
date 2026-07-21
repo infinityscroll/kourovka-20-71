@@ -1,11 +1,12 @@
 #!/bin/zsh
-# Extended Kourovka 20.71 k=2,3 sweeps beyond n=11 on the tractable slices:
-#  (a) regular graphs, degree d <= (n-1)/2 (complement-invariance covers the rest)
-#  (b) near-regular graphs with degrees within a window [a, a+1]
-# These cover the structurally forced cases #distinct degrees <= 2 up to the
-# stated bounds; the k=3 three-degree-value slice is covered only through n=11.
+# Exploratory Kourovka 20.71 k=2,3 sweeps beyond n=11 on tractable slices:
+#  (a) selected regular graphs;
+#  (b) selected near-regular graphs with degrees in a window [a, a+1].
+# These slices are not exhaustive: generation is restricted to connected
+# graphs, and complementation need not preserve connectivity.
 set -e
-cd ~/open_problem_mining
+SCRIPT_DIR=${0:A:h}
+cd "$SCRIPT_DIR"
 GENG=/opt/homebrew/bin/geng
 mkdir -p k23_results
 

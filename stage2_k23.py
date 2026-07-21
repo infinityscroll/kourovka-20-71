@@ -61,8 +61,9 @@ def main() -> None:
             sum((mask[u] & mask[v]).bit_count() for u in adj[v]) // 2
             for v in range(n)
         ]
-        # card fingerprint: (degree multiset of G-v, triangle count of G-v);
-        # both are isomorphism invariants of the card
+        # card fingerprint: degree multiset of G-v and tri[v]. Since
+        # triangles(G-v) = triangles(G) - tri[v], both components are card
+        # isomorphism invariants within this fixed graph.
         groups: dict[tuple, list[int]] = {}
         for v in range(n):
             dm = tuple(sorted(deg[u] - ((mask[v] >> u) & 1)

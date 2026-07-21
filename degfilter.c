@@ -1,4 +1,4 @@
-/* degfilter.c — pass through graph6 lines (n<=12) whose graphs have at most
+/* degfilter.c — pass through graph6 lines (n<=14) whose graphs have at most
  * MAXDEG_CLASSES distinct degree values. Necessary condition for having at
  * most that many vertex-deleted card types (isomorphic cards => equal
  * deleted-vertex degrees). Prints survivors to stdout; count summary to
@@ -7,7 +7,7 @@
 #include <string.h>
 #include <stdint.h>
 
-#define MAXN 12
+#define MAXN 14
 #define MAXDEG_CLASSES 3
 
 int main(void) {

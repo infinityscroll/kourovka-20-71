@@ -12,5 +12,6 @@ verifier scripts in this repository):
 - connectivity and graph6 string `HCpbdgy` confirmed.
 
 The Lean certificate `Kourovka2071.lean` compiles with zero `sorry`/`admit`/
-`axiom` against Lean 4.31 / current Mathlib (`lake env lean Kourovka2071.lean`
-inside a google-deepmind/formal-conjectures checkout).
+`axiom` against Lean 4.27.0 / current Mathlib (`lake env lean Kourovka2071.lean`
+inside a google-deepmind/formal-conjectures checkout). Its uses of
+`native_decide` additionally trust Lean's native compiler.

@@ -124,9 +124,8 @@ automorphisms and all vertex-deleted-card isomorphisms, and concludes with
 
 ```lean
 theorem affirmative_k4 :
-    witness.Connected ∧
-      (Finset.univ.image cardClass).card = 4 ∧
-      (Finset.univ.image orbitClass).card = 5
+    ∃ G : SimpleGraph (Fin 9),
+      G.Connected ∧ HasExactlyCardTypes G 4 ∧ HasExactlyVertexOrbits G 5
 ```
 
 It compiles in the current `formal-conjectures` environment with
@@ -135,7 +134,9 @@ It compiles in the current `formal-conjectures` environment with
 lake env lean Kourovka2071.lean
 ```
 
-and contains no `sorry`, `admit`, added axiom, or unsafe declaration.
+and contains no `sorry`, `admit`, added axiom, or unsafe declaration. Its
+finite exhaustive decisions use `native_decide`, so the certificate trusts
+Lean's native compiler in addition to the kernel.
 
 ## Nauty minimality census
 
@@ -191,20 +192,19 @@ at minimum order. Curiously, **no** graph of order 10 is an example for any
 k in {2, 3, 4}.
 
 A short note (LaTeX in `note/`) presents the k = 4 answer with a fully
-hand-checkable proof plus these census results. Structured sweeps beyond order 11 found no witness either
+hand-checkable proof plus these census results. Exploratory sweeps beyond
+order 11 also found no witness in the tested connected slices
 (`results_extended/`, all with 0 witnesses):
 
-- **regular graphs** of orders 12, 13, 14 with degree d ≤ (n-1)/2 — by
-  complement invariance this covers *all* regular graphs of those orders
-  (largest slice: all 21,609,300 connected 6-regular graphs on 14 vertices);
-- **adjacent-degree windows** (degrees within {a, a+1}, a = 2..5) at orders
-  12 and 13, covering 15,409,504 and 836,922,152 graphs respectively —
-  by complement invariance this also covers windows {n-2-a, n-1-a}.
+- regular graphs of orders 12--14 with degrees `2 <= d <= (n-1)/2`
+  (largest slice: 21,609,300 connected 6-regular graphs on 14 vertices);
+- graphs of orders 12--13 with degrees in `{a, a+1}`, `a = 2,...,5`,
+  covering 15,409,504 and 836,922,152 graphs respectively.
 
-Coverage caveat: a k = 2 or k = 3 example of order 12-13 outside these
-slices would need two non-adjacent degree values (e.g. {2, 4}), a window
-touching degree 1, or (for k = 3) three distinct degree values. The
-unconditional bound remains: no example on ≤ 11 vertices.
+These slices are not exhaustive. Although card types and orbit counts are
+complement-invariant, complementation need not preserve connectivity, so a
+connected-only generation cannot infer the untested complementary slices.
+The unconditional census bound remains: no example on at most 11 vertices.
 
 ## Status caveat
 

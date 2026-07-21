@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+
+note/main.aux
+note/main.log
+note/main.out
+note/main.pdf

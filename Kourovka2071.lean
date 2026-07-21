@@ -6,6 +6,24 @@ import FormalConjecturesUtil
 
 namespace Kourovka.«20.71»
 
+/-- The vertex-deleted cards of G at u and v are isomorphic. -/
+def CardIsoFor {V : Type*} (G : SimpleGraph V) (u v : V) : Prop :=
+  Nonempty (G.induce {x | x ≠ u} ≃g G.induce {x | x ≠ v})
+
+/-- The vertices u and v lie in the same orbit of Aut(G). -/
+def SameOrbitFor {V : Type*} (G : SimpleGraph V) (u v : V) : Prop :=
+  ∃ e : G ≃g G, e u = v
+
+/-- G has exactly k isomorphism types among its vertex-deleted cards. -/
+def HasExactlyCardTypes {V : Type*} (G : SimpleGraph V) (k : ℕ) : Prop :=
+  ∃ c : V → Fin k, Function.Surjective c ∧
+    ∀ u v, CardIsoFor G u v ↔ c u = c v
+
+/-- The action of Aut(G) on vertices has exactly k orbits. -/
+def HasExactlyVertexOrbits {V : Type*} (G : SimpleGraph V) (k : ℕ) : Prop :=
+  ∃ c : V → Fin k, Function.Surjective c ∧
+    ∀ u v, SameOrbitFor G u v ↔ c u = c v
+
 private def edgePairs : List (Nat × Nat) :=
   [(0, 3), (0, 4), (0, 7), (1, 4), (1, 5), (1, 6), (2, 5), (2, 6),
    (2, 7), (2, 8), (3, 6), (3, 7), (3, 8), (4, 8), (5, 7), (6, 8)]
@@ -146,10 +164,49 @@ theorem five_automorphism_orbits :
     (Finset.univ.image orbitClass).card = 5 := by
   native_decide
 
+private def cardClassFin (v : Fin 9) : Fin 4 :=
+  ⟨cardClass v, by fin_cases v <;> decide⟩
+
+private def orbitClassFin (v : Fin 9) : Fin 5 :=
+  ⟨orbitClass v, by fin_cases v <;> decide⟩
+
+private theorem cardIsoFor_witness_iff (u v : Fin 9) :
+    CardIsoFor witness u v ↔ CardIso u v := by
+  constructor
+  · rintro ⟨e⟩
+    exact ⟨e.toEquiv, fun x y => e.map_rel_iff.symm⟩
+  · rintro ⟨e, he⟩
+    exact ⟨{ toEquiv := e, map_rel_iff' := fun {x y} => (he x y).symm }⟩
+
+private theorem sameOrbitFor_witness_iff (u v : Fin 9) :
+    SameOrbitFor witness u v ↔ SameOrbit u v := by
+  constructor
+  · rintro ⟨e, h⟩
+    exact ⟨e.toEquiv, fun x y => e.map_rel_iff.symm, h⟩
+  · rintro ⟨p, hp, h⟩
+    exact ⟨{ toEquiv := p, map_rel_iff' := fun {x y} => (hp x y).symm }, h⟩
+
+private theorem cardClassFin_surjective : Function.Surjective cardClassFin := by
+  native_decide
+
+private theorem orbitClassFin_surjective : Function.Surjective orbitClassFin := by
+  native_decide
+
+private theorem cardClassFin_classification (u v : Fin 9) :
+    CardIsoFor witness u v ↔ cardClassFin u = cardClassFin v := by
+  rw [cardIsoFor_witness_iff, card_classification]
+  simp [cardClassFin]
+
+private theorem orbitClassFin_classification (u v : Fin 9) :
+    SameOrbitFor witness u v ↔ orbitClassFin u = orbitClassFin v := by
+  rw [sameOrbitFor_witness_iff, orbit_classification]
+  simp [orbitClassFin]
+
 theorem affirmative_k4 :
-    witness.Connected ∧
-      (Finset.univ.image cardClass).card = 4 ∧
-      (Finset.univ.image orbitClass).card = 5 :=
-  ⟨witness_connected, four_card_types, five_automorphism_orbits⟩
+    ∃ G : SimpleGraph (Fin 9),
+      G.Connected ∧ HasExactlyCardTypes G 4 ∧ HasExactlyVertexOrbits G 5 :=
+  ⟨witness, witness_connected,
+    ⟨cardClassFin, cardClassFin_surjective, cardClassFin_classification⟩,
+    ⟨orbitClassFin, orbitClassFin_surjective, orbitClassFin_classification⟩⟩
 
 end Kourovka.«20.71»
