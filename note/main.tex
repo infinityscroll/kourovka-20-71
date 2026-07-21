@@ -1,0 +1,193 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1.15in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{problem}[theorem]{Problem}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{A graph with four card types and five vertex orbits:\\
+the $k=4$ case of Kourovka Notebook Problem 20.71}
+\author{Jitendra Prajapati\thanks{IIT Madras. Verification scripts and a
+Lean~4 certificate: \url{https://github.com/infinityscroll/kourovka-20-71}.}}
+\date{July 2026 (draft)}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+A \emph{card} of a finite simple graph $G$ is a vertex-deleted induced
+subgraph $G - v$. Problem 20.71 of the Kourovka Notebook (J.~Lauri,
+communicated by V.~Pannone) asks, for $k = 2, 3, 4$, whether a connected
+graph with exactly $k$ isomorphism types of cards can have more than $k$
+orbits of $\operatorname{Aut}(G)$ on vertices. We answer the case $k = 4$
+affirmatively with a graph on $9$ vertices, which an exhaustive census shows
+to be of minimum order and unique up to complementation; curiously, no
+example of order $10$ exists for any $k \in \{2,3,4\}$. The verification is
+elementary, and is additionally certified in Lean~4. The same census shows that any example for $k = 2$ or
+$k = 3$ must have at least $12$ vertices.
+\end{abstract}
+
+\section{Introduction}
+
+Let $G$ be a finite simple undirected graph with vertex set $V(G)$,
+$|V(G)| = n$. The \emph{cards} of $G$ are the $n$ induced subgraphs
+$G - v$, $v \in V(G)$. Vertices in one orbit of $\operatorname{Aut}(G)$
+yield isomorphic cards, so the partition of $V(G)$ by card type is coarser
+than the orbit partition; in particular a graph with exactly $k$ card types
+has at least $k$ orbits, and vertices with isomorphic cards lying in
+distinct orbits are the classical \emph{pseudosimilar} vertices
+\cite{GK82,Lauri97,LS16}. If all cards are mutually isomorphic ($k=1$), it
+is known that $G$ must be vertex-transitive, i.e.\ the orbit count is
+exactly $1$ \cite[Problem 20.71, comment]{KN21}.
+
+Problem 20.71 of the Kourovka Notebook \cite{KN21}, due to J.~Lauri and
+communicated by V.~Pannone, asks:
+
+\begin{problem}[{\cite[20.71]{KN21}}]\label{prob}
+For $k = 2, 3, 4$: can a connected graph with exactly $k$ isomorphism types
+of cards have more than $k$ orbits of $\operatorname{Aut}(G)$ on $V(G)$?
+\end{problem}
+
+Examples are recorded there with $5$ card types and $6$ orbits, and with
+$6$ card types and $7$ orbits. We settle the case $k = 4$:
+
+\begin{theorem}\label{thm:main}
+There is a connected graph $W$ on $9$ vertices with exactly four
+isomorphism types of cards and exactly five vertex orbits.
+\end{theorem}
+
+\begin{proposition}[computational]\label{prop:census}
+By exhaustive search over connected unlabeled graphs:
+\begin{enumerate}
+\item no graph of order at most $8$ has $k \in \{2,3,4\}$ card types and
+more than $k$ orbits, so $W$ has minimum order;
+\item at order $9$ there are exactly two such graphs for $k = 4$, namely
+$W$ and its complement $\overline{W}$ (card types and orbits are invariant
+under complementation, and $\overline{W}$ is again connected), so the
+example is unique up to complementation; at order $10$ there is none for
+any $k \in \{2,3,4\}$;
+\item no graph of order at most $11$ has $k \in \{2,3\}$ card types and
+more than $k$ orbits. Consequently any affirmative example for the two
+remaining cases of Problem~\ref{prob} has at least $12$ vertices.
+\end{enumerate}
+\end{proposition}
+
+\section{The witness}
+
+Let $W$ be the graph on $\{0, 1, \dots, 8\}$ with the $16$ edges
+\[
+03,\ 04,\ 07,\ 14,\ 15,\ 16,\ 25,\ 26,\ 27,\ 28,\ 36,\ 37,\ 38,\ 48,\ 57,\ 68
+\]
+(graph6 code \verb|HCpbdgy|). $W$ is connected: $03, 04, 07, 14, 15, 16,
+25, 28$ is a spanning tree.
+
+\subsection{Exactly five orbits}
+
+Colour refinement starting from degrees stabilises at the partition
+\[
+\pi \;=\; \{0,5\} \mid \{1,4\} \mid \{2,3\} \mid \{6,8\} \mid \{7\},
+\]
+and every automorphism preserves the cells of $\pi$. The involution
+\[
+\sigma = (0\,5)(1\,4)(2\,3)(6\,8)
+\]
+is an automorphism of $W$ (a direct check on the edge list), so each cell
+of $\pi$ is a single orbit: there are exactly five orbits, and
+$\operatorname{Aut}(W) = \{\mathrm{id}, \sigma\}$ (the exhaustive check
+over all $9!$ permutations confirms no further automorphisms, though for
+Theorem~\ref{thm:main} the count of orbits needs only $\pi$ and $\sigma$).
+
+\subsection{Exactly four card types}
+
+The degree multisets of the nine cards take exactly four values:
+\[
+\begin{array}{ll}
+W - 0,\ W - 5: & (2,3,3,3,3,4,4,4) \\
+W - 1,\ W - 4: & (2,2,3,3,4,4,4,4) \\
+W - 2,\ W - 3,\ W - 6,\ W - 8: & (2,3,3,3,3,3,3,4) \\
+W - 7: & (2,2,3,3,3,3,4,4)
+\end{array}
+\]
+so there are at least four card types. Conversely $\sigma$ identifies the
+cards within the pairs $\{0,5\}$, $\{1,4\}$, $\{2,3\}$, $\{6,8\}$, and the
+explicit bijections
+\[
+\begin{array}{ll}
+W-2 \to W-6: & 0\mapsto2,\ 1\mapsto4,\ 3\mapsto7,\ 4\mapsto8,\ 5\mapsto1,\
+6\mapsto0,\ 7\mapsto5,\ 8\mapsto3,\\
+W-2 \to W-8: & 0\mapsto3,\ 1\mapsto1,\ 3\mapsto7,\ 4\mapsto6,\ 5\mapsto4,\
+6\mapsto5,\ 7\mapsto0,\ 8\mapsto2,
+\end{array}
+\]
+are isomorphisms (checks on the edge lists), so the four vertices
+$2, 3, 6, 8$ give one card type. Hence there are exactly four card types,
+with deletion classes $\{0,5\}, \{1,4\}, \{2,3,6,8\}, \{7\}$.
+
+The point of the example is that the card class $\{2,3,6,8\}$ is the union
+of the \emph{two} orbits $\{2,3\}$ and $\{6,8\}$: these four vertices are
+pairwise pseudosimilar across the two orbits. This proves
+Theorem~\ref{thm:main}. \qed
+
+\begin{remark}
+The verification above is deliberately software-independent: one involution,
+two explicit card isomorphisms, four degree multisets, and colour
+refinement, all checkable by hand. A machine-checked Lean~4 certificate of
+the statement (connectivity, card-type count $4$, orbit count $5$), which
+compiles against Mathlib with no unproven assumptions, is provided in the
+repository, together with scripts reproducing every claim.
+\end{remark}
+
+\section{The census}\label{sec:census}
+
+Proposition~\ref{prop:census} rests on exhaustive generation of connected
+unlabeled graphs with \textsf{nauty}'s \texttt{geng} \cite{MP14}, in the
+counts recorded at OEIS A001349 ($11{,}716{,}571$ graphs of order $10$;
+$1{,}006{,}700{,}565$ of order $11$), filtered in two sound pruning stages:
+a graph with at most $3$ card types has at most $3$ distinct degrees
+(isomorphic cards force equal deleted-vertex degrees), and the partition of
+cards by the invariant pair (degree multiset, triangle count) is coarser
+than the partition into isomorphism types. Cards of the graphs surviving
+both filters were classified exactly by canonical labelling
+(\textsf{pynauty}), and orbit counts of the resulting candidates computed
+exactly. At orders $10$ and $11$ respectively, $741{,}839$ and
+$27{,}219{,}751$ graphs passed the degree filter, $8{,}059$ and $60{,}536$
+required canonical labelling, and none was an example for $k \in \{2,3\}$.
+Structured sweeps beyond order $11$ (regular graphs of degree
+$d \le (n-1)/2$, which suffices since card types and orbits are invariant
+under complementation, and near-regular degree windows) are reported in the
+repository.
+
+\section{Remaining cases}
+
+The cases $k = 2$ and $k = 3$ of Problem~\ref{prob} remain open; by
+Proposition~\ref{prop:census} any example has order at least $12$. It seems
+plausible that the difficulty is genuine: fewer card types force the graph
+closer to vertex-transitivity, while extra orbits require asymmetry, and
+the tension is sharpest at $k = 2$ where the $k = 1$ rigidity theorem sits
+immediately below.
+
+\section*{Disclosure}
+The search, the write-up and the Lean formalization were prepared with
+substantial assistance from Claude (Anthropic); the witness was
+additionally re-verified by independent brute-force computation, and the
+central claim is machine-checked.
+
+\begin{thebibliography}{9}
+\bibitem{GK82} C.~D.~Godsil, W.~L.~Kocay, \emph{Constructing graphs with
+pairs of pseudo-similar vertices}, J.~Combin.\ Theory Ser.~B 32 (1982).
+\bibitem{KN21} E.~I.~Khukhro, V.~D.~Mazurov (eds.), \emph{Unsolved Problems
+in Group Theory: The Kourovka Notebook}, No.~21, Sobolev Institute of
+Mathematics, Novosibirsk, 2026.
+\bibitem{Lauri97} J.~Lauri, \emph{Pseudosimilarity in graphs --- a survey},
+Ars Combin.\ 46 (1997).
+\bibitem{LS16} J.~Lauri, R.~Scapellato, \emph{Topics in Graph Automorphisms
+and Reconstruction}, 2nd ed., LMS Lecture Note Series 432, Cambridge
+University Press, 2016.
+\bibitem{MP14} B.~D.~McKay, A.~Piperno, \emph{Practical graph isomorphism,
+II}, J.~Symbolic Comput.\ 60 (2014) 94--112.
+\end{thebibliography}
+
+\end{document}

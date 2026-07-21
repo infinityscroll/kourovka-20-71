@@ -181,7 +181,17 @@ census for the two remaining subcases:
 - order 11: all 1,006,700,565 connected graphs — no k = 2 or k = 3 example.
 
 So any graph with two (resp. three) card types and more than two (resp.
-three) automorphism orbits has at least 12 vertices. Structured sweeps at
+three) automorphism orbits has at least 12 vertices.
+
+A complete recount of k = 4 witnesses (`stage2_k4.py`, no degree filter)
+shows that order 9 admits **exactly two** such graphs: `HCpbdgy` and its
+complement `HCZetxu` (both connected; card types and orbit counts are
+complement-invariant). So the k = 4 example is unique up to complementation
+at minimum order. Curiously, **no** graph of order 10 is an example for any
+k in {2, 3, 4}.
+
+A short note (LaTeX in `note/`) presents the k = 4 answer with a fully
+hand-checkable proof plus these census results. Structured sweeps at
 orders 12-14 (regular graphs with degree at most (n-1)/2, which suffices by
 complement invariance, and near-regular degree windows) are reported in the
 results directory.
