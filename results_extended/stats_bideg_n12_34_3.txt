@@ -1,1 +1,0 @@
-STATS checked=33705 fp_kept=173 certified=173 witnesses=0

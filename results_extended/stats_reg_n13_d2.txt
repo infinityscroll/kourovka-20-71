@@ -1,1 +1,0 @@
-STATS checked=1 fp_kept=1 certified=1 witnesses=0
