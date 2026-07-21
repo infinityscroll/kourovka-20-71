@@ -170,6 +170,22 @@ found the displayed `k=4` witness and no `k=2` or `k=3` witness at that
 order.  That latter no-hit is computational evidence about the two remaining
 subcases, not a solution of them.
 
+## Extended census for the remaining subcases (k = 2, 3)
+
+A faster two-stage pipeline (`degfilter.c` + `stage2_k23.py`; a graph with at
+most 3 card types has at most 3 distinct degrees, and card classes refine the
+(degree-multiset, triangle-count) card fingerprints) extends the negative
+census for the two remaining subcases:
+
+- order 10: all 11,716,571 connected graphs — no k = 2 or k = 3 example;
+- order 11: all 1,006,700,565 connected graphs — no k = 2 or k = 3 example.
+
+So any graph with two (resp. three) card types and more than two (resp.
+three) automorphism orbits has at least 12 vertices. Structured sweeps at
+orders 12-14 (regular graphs with degree at most (n-1)/2, which suffices by
+complement invariance, and near-regular degree windows) are reported in the
+results directory.
+
 ## Status caveat
 
 The July 2026 Notebook still prints Problem 20.71 without a solution note,
