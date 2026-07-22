@@ -27,3 +27,20 @@ Aggregated from 12-way parallel workers; regenerate with
 | reg_n14_d5 | 3,459,383 | 937,338 | 937,338 | 0 |
 | reg_n14_d6 | 21,609,300 | 3,332,933 | 3,332,933 | 0 |
 | **total** | **905,096,885** | **4,642,074** | **4,642,074** | **0** |
+
+## Complementation gap closure
+
+Complementation preserves card types and orbit counts but not connectivity,
+so the connected low-degree sweeps above do not by themselves cover
+connected high-degree graphs with disconnected complements. Since the
+complement of a disconnected graph is always connected, those are covered by
+testing every disconnected graph in the low slices (disjoint unions of
+connected low-slice components; `gapclose_disconnected.py`): 2,844 unions
+across regular n=13,14 (d <= (n-1)/2) and windows {a,a+1}, a=2..5, n=13 —
+**0 witnesses**.
+
+## Order-12 full census
+
+All 164,059,830,476 connected graphs on 12 vertices (matches OEIS A001349):
+1,905,839,762 degree-filter survivors, 32,500 certified, **0 witnesses**.
+Unconditional bound: any k=2 or k=3 example has at least 13 vertices.

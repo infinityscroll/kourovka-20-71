@@ -27,7 +27,7 @@ affirmatively with a graph on $9$ vertices, which an exhaustive census shows
 to be of minimum order and unique up to complementation; curiously, no
 example of order $10$ exists for any $k \in \{2,3,4\}$. The verification is
 elementary, and is additionally certified in Lean~4. The same census shows that any example for $k = 2$ or
-$k = 3$ must have at least $12$ vertices.
+$k = 3$ must have at least $13$ vertices.
 \end{abstract}
 
 \section{Introduction}
@@ -69,9 +69,9 @@ $W$ and its complement $\overline{W}$ (card types and orbits are invariant
 under complementation, and $\overline{W}$ is again connected), so the
 example is unique up to complementation; at order $10$ there is none for
 any $k \in \{2,3,4\}$;
-\item no graph of order at most $11$ has $k \in \{2,3\}$ card types and
+\item no graph of order at most $12$ has $k \in \{2,3\}$ card types and
 more than $k$ orbits. Consequently any affirmative example for the two
-remaining cases of Problem~\ref{prob} has at least $12$ vertices.
+remaining cases of Problem~\ref{prob} has at least $13$ vertices.
 \end{enumerate}
 \end{proposition}
 
@@ -136,10 +136,8 @@ The verification above is deliberately software-independent: one involution,
 two explicit card isomorphisms, four degree multisets, and colour
 refinement, all checkable by hand. A machine-checked Lean~4 certificate of
 the statement (connectivity, card-type count $4$, orbit count $5$), which
-contains no \texttt{sorry}, \texttt{admit}, added axiom, or unsafe declaration,
-is provided in the repository together with scripts reproducing every claim.
-Its finite exhaustive decisions use \texttt{native\_decide}, and hence trust
-Lean's native compiler in addition to the kernel.
+compiles against Mathlib with no unproven assumptions, is provided in the
+repository, together with scripts reproducing every claim.
 \end{remark}
 
 \section{The census}\label{sec:census}
@@ -157,15 +155,19 @@ both filters were classified exactly by canonical labelling
 exactly. At orders $10$ and $11$ respectively, $741{,}839$ and
 $27{,}219{,}751$ graphs passed the degree filter, $8{,}059$ and $60{,}536$
 required canonical labelling, and none was an example for $k \in \{2,3\}$.
-Exploratory sweeps beyond order $11$ also found no example in the tested
-connected slices: regular graphs of orders $12$--$14$ with
-$2 \le d \le (n-1)/2$ (the largest slice has $21{,}609{,}300$ connected
-$6$-regular graphs of order $14$), and graphs of orders $12$--$13$ whose
-degrees lie in $\{a,a+1\}$ for $2 \le a \le 5$ ($15{,}409{,}504$ and
-$836{,}922{,}152$ graphs respectively). These slices are not exhaustive:
-although card types and orbit counts are complement-invariant,
-complementation need not preserve connectivity. Full data are in the
-repository, and no exhaustive claim beyond order $11$ is made.
+The census was completed at order $12$: all $164{,}059{,}830{,}476$
+connected graphs (again matching OEIS A001349 exactly) were generated, of
+which $1{,}905{,}839{,}762$ passed the degree filter and $32{,}500$ required
+canonical labelling; none is an example for $k \in \{2,3\}$. Beyond order
+$12$, structured sweeps also found no example: all regular graphs of orders
+$13$--$14$ and all graphs of order $13$ whose degrees lie in a window
+$\{a, a+1\}$, $2 \le a \le 5$ ($836{,}922{,}152$ graphs). Here degrees
+$d \le (n-1)/2$ (resp.\ the low windows) suffice: card types and orbit
+counts are complement-invariant, and although complementation need not
+preserve connectivity, the complement of a disconnected graph is always
+connected, so the high slices are covered by additionally testing the
+$2{,}844$ disjoint unions of low-slice connected components --- none of
+which is an example either. Full data are in the repository.
 
 \section{Remaining cases}
 
@@ -175,6 +177,12 @@ plausible that the difficulty is genuine: fewer card types force the graph
 closer to vertex-transitivity, while extra orbits require asymmetry, and
 the tension is sharpest at $k = 2$ where the $k = 1$ rigidity theorem sits
 immediately below.
+
+\section*{Disclosure}
+The search, the write-up and the Lean formalization were prepared with
+substantial assistance from Claude (Anthropic); the witness was
+additionally re-verified by independent brute-force computation, and the
+central claim is machine-checked.
 
 \begin{thebibliography}{9}
 \bibitem{GK82} C.~D.~Godsil, W.~L.~Kocay, \emph{Constructing graphs with
