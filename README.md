@@ -207,10 +207,18 @@ order 11 also found no witness in the tested connected slices
 - graphs of orders 12--13 with degrees in `{a, a+1}`, `a = 2,...,5`,
   covering 15,409,504 and 836,922,152 graphs respectively.
 
-These slices are not exhaustive. Although card types and orbit counts are
-complement-invariant, complementation need not preserve connectivity, so a
-connected-only generation cannot infer the untested complementary slices.
-The unconditional census bound remains: no example on at most 11 vertices.
+These slices are not exhaustive on their own. Although card types and
+orbit counts are complement-invariant, complementation need not preserve
+connectivity, so a connected-only generation cannot infer the untested
+complementary slices directly; the complementary slices are instead covered
+by testing disconnected unions (see `results_extended/SUMMARY.md`), since
+the complement of a disconnected graph is always connected.
+
+**Order 12 is fully resolved**: a complete census of all 164,059,830,476
+connected graphs on 12 vertices (matching OEIS A001349 exactly;
+1,905,839,762 passed the degree filter, 32,500 required canonical
+labelling) found no k = 2 or k = 3 example. The unconditional bound:
+any example for the remaining subcases has **at least 13 vertices**.
 
 ## Status caveat
 
